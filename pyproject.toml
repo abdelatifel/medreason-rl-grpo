@@ -9,7 +9,7 @@ description = "SFT vs DPO vs GRPO for medical multiple-choice reasoning"
 requires-python = ">=3.10"
 dependencies = [
     "torch>=2.3",
-    "transformers>=4.51",
+    "transformers>=4.51,<5",  # v5 removed warmup_ratio and other args trl 0.19 relies on
     "trl==0.19.1",
     "peft>=0.15",
     "bitsandbytes>=0.45",
