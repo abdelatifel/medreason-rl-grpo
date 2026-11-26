@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "medreason"
+version = "0.1.0"
+description = "SFT vs DPO vs GRPO for medical multiple-choice reasoning"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.3",
+    "transformers>=4.51",
+    "trl==0.19.1",
+    "peft>=0.15",
+    "bitsandbytes>=0.45",
+    "accelerate>=1.6",
+    "datasets>=3.0",
+    "pyyaml>=6.0",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+vllm = ["vllm>=0.8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

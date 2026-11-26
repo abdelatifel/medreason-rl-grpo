@@ -1,0 +1,58 @@
+seed: 42
+output_root: outputs
+
+model:
+  name: Qwen/Qwen2.5-1.5B-Instruct
+  load_in_4bit: true
+
+data:
+  dataset: GBaker/MedQA-USMLE-4-options
+  max_train_examples: null   # set an int for quick experiments
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+
+sft:
+  epochs: 1
+  learning_rate: 2.0e-4
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  max_length: 1024
+
+preferences:
+  samples_per_question: 4
+  temperature: 0.8
+  max_new_tokens: 384
+  n_questions: 2000
+
+dpo:
+  epochs: 1
+  learning_rate: 5.0e-6
+  beta: 0.1
+  batch_size: 2
+  gradient_accumulation_steps: 8
+  max_length: 1024
+  max_prompt_length: 512
+
+grpo:
+  learning_rate: 1.0e-6
+  num_generations: 8
+  batch_size: 8               # must be divisible by num_generations
+  gradient_accumulation_steps: 4
+  max_prompt_length: 512
+  max_completion_length: 384
+  beta: 0.04                  # KL penalty to the reference policy
+  temperature: 0.9
+  max_steps: 500
+  use_vllm: false
+
+rewards:
+  format_weight: 0.2
+  length_budget: 300          # words before the length penalty starts
+  length_penalty_per_word: 0.001
+
+eval:
+  max_new_tokens: 384
